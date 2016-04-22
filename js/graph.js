@@ -104,30 +104,6 @@ function createGraph(data, graph) {
 		graph.maxEdgeC = Math.max.apply(Math, edgesC);
 	}
 }
-function createGraphW(data, graph) {
-	var tag = [];
-	Object.keys(data[0]).forEach(function(item){
-		if(item != "node") {
-			tag.push(item);	
-		}
-	});
-
-	graph.nodes = [];
-	for(var i=0; i<data.length; i++) {
-		var line = data[i];
-		var node = {
-			index: i,
-			neighbors: []
-		};
-		for(var j=0; j<tag.length; j++) {
-			var neighborName = tag[j];
-			if(line[neighborName] != "") {
-				node.neighbors.push(parseFloat(line[neighborName])-1);
-			}
-		}
-		graph.nodes.push(node);
-	}
-}
 /*-----------Vector-----------*/
 vectorAdd = function(v1, v2) {
 	var result = {
@@ -242,49 +218,4 @@ function render(graph) {
 			ctx.stroke();
 		});
 	}	
-}
-
-function renderM(G, XVectors) {
-	var canvas = $("#canvas")[0];
-	var ctx = canvas.getContext("2d");
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-	ctx.rect(0,0,canvas.width,canvas.height);
-	ctx.fillStyle="white";
-	ctx.fill();
-
-	var nodeSize = parseFloat($('#nodeSize').val());
-	var edgeThickness = parseFloat($('#edgeThickness').val());
-	var scolor = $('#scolor').css('background-color');
-	var ecolor = $('#ecolor').css('background-color');
-
-	var row = G.row;
-	var column = G.column;
-	for(var i=0; i<row; i++) {
-		var j = i + 1;
-		for(j; j<column; j++) {
-			if(G.matrix[i][j] != 0) {
-				ctx.beginPath();
-				ctx.moveTo(XVectors[i].pos.x, XVectors[i].pos.y);
-				ctx.lineTo(XVectors[j].pos.x, XVectors[j].pos.y);
-				ctx.lineWidth = edgeThickness;
-				ctx.strokeStyle = ecolor;
-				ctx.stroke();
-			}
-		}
-	}
-
-	for(var i=0; i<G.row; i++) {
-		var node = XVectors[i];
-		ctx.beginPath();
-		ctx.arc(node.pos.x,node.pos.y,nodeSize,0,2*Math.PI);
-		ctx.strokeStyle = scolor;
-		ctx.fillStyle = scolor;
-		ctx.fill();
-		ctx.stroke();
-	}
-	/*var link = document.createElement('a');
-	link.download = "test.png";
-	link.href = canvas.toDataURL("image/png");
-	link.click();*/
 }

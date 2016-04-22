@@ -1,4 +1,4 @@
-/*----------Yifan Hu Multilevel Method---------*/
+/*---------- Multilevel Method ---------*/
 function fdMulti(graph) {
 	var length = graph.nodes.length;
 	var spring = parseFloat($('#spring').val());
@@ -24,8 +24,6 @@ function fdMulti(graph) {
 		graph.nodes[i].pos.x = XVectors[i].pos.x;
 		graph.nodes[i].pos.y = XVectors[i].pos.y;
 	}
-	
-	//renderM(G, XVectors);
 }
 
 function multilevelLayout(G, Weight, tol) {	
@@ -63,9 +61,7 @@ function multilevelLayout(G, Weight, tol) {
 			XVectors[i].pos.x = x;
 			XVectors[i].pos.y = y;
 		};
-		//renderM(G, XVectors);
 		forceDirectedAlgorithm(G, XVectors, Weight, tol);
-		//renderM(G, XVectors);
 		return XVectors;
 	}
 
@@ -128,10 +124,8 @@ function multilevelLayout(G, Weight, tol) {
 	// Prolongate to get initial layout
 	var XVectors = P.multiplyXV(nextLevelX);
 	
-	//renderM(G, XVectors);
 	forceDirectedAlgorithm(G, XVectors, Weight, tol);
-	//renderM(G, XVectors);
-	
+
 	return XVectors;
 }
 
@@ -235,7 +229,6 @@ function mivs(G) {
 }
 /*-----------Adaptive FD------------------*/
 function forceDirectedAlgorithm(G, XVectors, Weight, tol) {
-	//var converged = false;
 	var converged = 0;
 	var length = G.row;
 	var count = 0;
@@ -253,12 +246,8 @@ function forceDirectedAlgorithm(G, XVectors, Weight, tol) {
 	}else {
 		var tolG = tol*k;
 		var t = k;
-		//var ratio = 5;
 	}
 	var ratio = 3 + G.level*3;
-	//var ratio = 10;
-
-	//var t = k;
 
 	var mode = {
 		canvasWidth: canvas.width,
@@ -266,172 +255,30 @@ function forceDirectedAlgorithm(G, XVectors, Weight, tol) {
 		k: k,
 		k2: k2
 	};
-	
-	/*while(!converged) {
-		var tree = createTreeG(XVectors, Weight, mode);
-		fdRepulsiveForce(G, XVectors, k2, Weight, tree, mode);
-		fdAttractiveForce(G, XVectors, k, Weight);
-		var diff = fdMovement(XVectors, t, mode);
-		if(count%ratio == 0) {
-			renderM(G, XVectors);
-		}
-		t = 0.9*t;
-		count++;
-		if(diff<k*tol) {
-			converged = true;
-		}
-	}*/
-	//renderM(G, XVectors);
+
 	while(converged != 1) {
 		converged = 1;
-		//var difference = 0;
 		var tree = createTreeG(XVectors, Weight, mode);
 		for(var i=0; i<length; i++) {
 			fdRepulsiveForceS(i, G, XVectors, k2, Weight, tree, mode);
-			//fdRepulsiveForceS(i, G, XVectors, k2, Weight);
 			fdAttractiveForceS(i, G, XVectors, k);
 			var diff = fdMovementS(i, XVectors, t, mode);
 
 			if(diff>tolG) {
 				converged = 0;
 			}
-			//difference = difference + diff;
-		}
-		
-		if(count%ratio == 0) {
-			//renderM(G, XVectors);
 		}
 
 		t = 0.9*t;
 		count++;
 				
 	}
-	//renderM(G, XVectors);
-}
-
-function fdRepulsiveForce(G, XVectors, k2, Weight, tree, mode) {
-	XVectors.forEach(function(node) {
-		node.disp.x = 0;
-		node.disp.y = 0;
-		//treeForceG(node, tree, mode);
-	});
-
-	var rnd = new Srand(20);
-	var spring = Math.sqrt(k2, 2);
-	
-	for(var i=0; i<XVectors.length; i++) {
-		var v = XVectors[i];
-		//var j = i+1;
-		for(var j=0; j<XVectors.length; j++) {
-			if(i != j) {
-				var u = XVectors[j];
-				var distance = vectorSubstract(v.pos, u.pos);
-				var distanceValue = vectorMagnitude(distance);
-				if(distanceValue > 0) {
-				//if(distanceValue > 0 && distanceValue < R) {
-					var direction = vectorNormalise(distance); 
-					var repulsiveForce = layoutRepulsionEquation(distanceValue, k2);
-					//repulsiveForce = 0.2*repulsiveForce * Weight.matrix[i][0] * Weight.matrix[j][0];
-					repulsiveForce = 0.2*repulsiveForce * Weight.matrix[i][0] * Weight.matrix[j][0];
-					//repulsiveForce = 0.2 * repulsiveForce * Weight.matrix[i][0];
-					var movement = vectorMultiply(direction, repulsiveForce);
-					v.disp = vectorAdd(v.disp, movement);
-					//u.disp = vectorSubstract(u.disp, movement);
-				}else if(distanceValue == 0) {
-					var direction ={
-						x: rnd.randomIn(0, 0.001*spring),
-						y: rnd.randomIn(0, 0.001*spring)
-						//x: rnd.randomIn(0, 1),
-						//y: rnd.randomIn(0, 1)
-					};
-					//var movement = vectorMultiply(direction, 0.001*spring);
-					//v.pos = vectorAdd(v.pos, movement);
-					v.disp = vectorAdd(v.disp, direction);
-					//u.disp = vectorSubstract(u.disp, direction);
-				}
-			}
-		}
-	}
-}
-function fdAttractiveForce(G, XVectors, k, Weight) {
-	var length = G.matrix.length;
-
-	for(var i=0; i<length; i++) {
-		var j = i + 1;
-		for(j; j<length; j++) {
-			if(G.matrix[i][j] != 0) {
-				var source = XVectors[i];
-				var target = XVectors[j];
-
-				var distance = vectorSubstract(source.pos, target.pos);
-				var direction = vectorNormalise(distance);
-				var distanceValue = vectorMagnitude(distance);
-				var attractiveForce = layoutAttractionEquation(distanceValue, k);
-				//attractiveForce = attractiveForce * Weight.matrix[i][0];
-				var movement = vectorMultiply(direction, attractiveForce);
-
-				source.disp = vectorSubstract(source.disp, movement);
-				target.disp = vectorAdd(target.disp, movement);
-			}
-		}
-	}
-}
-
-function fdMovement(XVectors, t, mode) {
-	var difference = 0;
-	for(var i=0; i<XVectors.length; i++) {
-		var node = XVectors[i];
-		var moveLength = Math.min(vectorMagnitude(node.disp), t);
-		var moveDirection = vectorNormalise(node.disp); 
-		var movement = vectorMultiply(moveDirection, moveLength);
-
-		var originalX = node.pos.x;
-		var originalY = node.pos.y;
-
-		node.pos = vectorAdd(node.pos, movement);
-
-		node.pos.x = Math.min((mode.canvasWidth), (Math.max(0, node.pos.x)));
-		node.pos.y = Math.min((mode.canvasHeight), (Math.max(0, node.pos.y)));
-
-		var length = Math.pow((originalX - node.pos.x), 2) + Math.pow((originalY - node.pos.y), 2);
-		length = Math.sqrt(length, 2);
-		difference = difference + length;
-	}
-	return difference;
 }
 
 function fdRepulsiveForceS(index, G, XVectors, k2, Weight, tree, mode) {
 	XVectors[index].disp.x = 0;
 	XVectors[index].disp.y = 0;
 
-	/*var rnd = new Srand(10);
-	var spring = Math.sqrt(k2, 2);
-	
-	for(var i=0; i<XVectors.length; i++) {
-		if(i != index) {
-			var v = XVectors[index];
-			var u = XVectors[i];
-			var distance = vectorSubstract(v.pos, u.pos);
-			var distanceValue = vectorMagnitude(distance);
-			if(distanceValue > 0) {
-			//if(distanceValue > 0 && distanceValue < R) {
-				var direction = vectorNormalise(distance);
-				var repulsiveForce = layoutRepulsionEquation(distanceValue, k2);
-				repulsiveForce = 0.2 * repulsiveForce * Weight.matrix[index][0] * Weight.matrix[i][0];
-				//repulsiveForce = 0.2 * repulsiveForce * Weight.matrix[index][0];
-				var movement = vectorMultiply(direction, repulsiveForce);
-				v.disp = vectorAdd(v.disp, movement);
-			}else if(distanceValue == 0) {
-				var direction = {
-					x: rnd.randomIn(0, 0.001*spring),
-					y: rnd.randomIn(0, 0.001*spring)
-					//x: Math.random()*0.001*spring,
-					//y: Math.random()*0.001*spring
-				};
-				v.disp = vectorAdd(v.disp, direction);
-			}
-		}
-	}*/
 	treeForceG(XVectors[index], tree, mode);
 }
 function fdAttractiveForceS(index, G, XVectors, k) {

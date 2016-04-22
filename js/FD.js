@@ -1,4 +1,4 @@
-/*-----------FD Basic-----------*/
+/*----------- FD Basic -----------*/
 function fdBasic(graph) {
 	var canvas = $("#canvas")[0];
 	var k = parseFloat($('#spring').val());
@@ -14,14 +14,7 @@ function fdBasic(graph) {
 		k: k,
 		k2: k2
 	};
-	
-	/*var i;
-	for (i = 0; i < times; i++) {
-		repulsionBasic(graph, mode.k2);
-		attraction(graph, mode);
-		movement(graph, t, mode);
-		t = tstart * (1 - (i / times));
-	}*/
+
 	var count = 0;
 	var converged = false;
 	var energy = Number.POSITIVE_INFINITY;
@@ -73,7 +66,7 @@ function updateStep(t, energy, oldEnergy, mode) {
 	return t;
 }
 
-/*-----------FD Grid-----------*/
+/*----------- FD Grid -----------*/
 function fdGrid(graph) {
 	var canvas = $("#canvas")[0];
 	var k = parseFloat($('#spring').val());
@@ -92,13 +85,6 @@ function fdGrid(graph) {
 		gridRange: range
 	};
 
-	/*var i;
-	for (i = 0; i < times; i++) {
-		repulsionGrid(graph, mode);
-		attraction(graph, mode);
-		movement(graph, t, mode);
-		t = tstart * (1 - (i / times));
-	}*/
 	var count = 0;
 	var converged = false;
 	var energy = Number.POSITIVE_INFINITY;
@@ -136,7 +122,7 @@ function fdGrid(graph) {
 	}
 }
 
-/*-----------FD Barnes-----------*/
+/*----------- FD Barnes -----------*/
 function fdBarnes(graph) {
 	var canvas = $("#canvas")[0];
 	var k = parseFloat($('#spring').val());
@@ -157,13 +143,6 @@ function fdBarnes(graph) {
 		level: level
 	};
 
-	/*var i;
-	for (i = 0; i < times; i++) {
-		repulsionBarnes(graph, mode);
-		attraction(graph, mode);
-		movement(graph, t, mode);
-		t = tstart * (1 - (i / times));
-	}*/
 	var count = 0;
 	var converged = false;
 	var energy = Number.POSITIVE_INFINITY;
@@ -205,7 +184,7 @@ function fdBarnes(graph) {
 }
 
 
-/*-----------Force Compute-----------*/
+/*----------- Force Compute -----------*/
 function repulsionBasic(graph, k2) {
 	graph.nodes.forEach(function(node) {
 		node.disp.x = 0;
@@ -304,7 +283,7 @@ function movement(graph, t, mode) {
 }
 
 
-/*-----------Force Equations-----------*/
+/*----------- Force Equations -----------*/
 function layoutRepulsionEquation(x, k2) {
 	var fr;
 	fr = k2 / x;

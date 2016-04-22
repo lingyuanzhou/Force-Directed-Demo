@@ -30,9 +30,6 @@ function loadData(event) {
 		// Load data
 		var csv = reader.result;
 		data = $.csv.toObjects(csv, {separator: ";"});
-		var info = '<p>Load' + '&nbsp;' + file.name + '</p>';
-		$('#info').append(info);
-		$('#info').animate({scrollTop: $('#info').prop('scrollHeight')}, 1000);
 
 		// Set source and target options
 		var counter = 0;
@@ -99,10 +96,6 @@ function chooseVersion() {
 			$('#moreOptions tr:last').after(level);
 			break;
 	}
-	var text = $(this).find("option:selected").text();
-	var info = '<p>Choose' + '&nbsp;' + text + '</p>';
-	$('#info').append(info);
-	$('#info').animate({scrollTop: $('#info').prop('scrollHeight')}, 1000);
 }
 
 function apply() {
@@ -150,14 +143,8 @@ function apply() {
 				render(graph);
 				break;
 		}
-		var text = $('#version').find("option:selected").text();
-		var info = '<p>Run' + '&nbsp;' + text + '</p>';
-		$('#info').append(info);
-		$('#info').animate({scrollTop: $('#info').prop('scrollHeight')}, 1000);
 	}else {
-		var info = '<p>Load Data First !</p>';
-		$('#info').append(info);
-		$('#info').animate({scrollTop: $('#info').prop('scrollHeight')}, 1000);
+		alert("Load Data First !");
 	}
 }
 

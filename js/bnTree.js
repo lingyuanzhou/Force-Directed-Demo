@@ -197,11 +197,8 @@ function computeMassG(node, mode) {
 		var i = 0;
 		for(var index in node.children) {
 			var subresult = computeMassG(node.children[index], mode);
-			//var subcm = computeMass(node.children[index], mode);
-			//cm = vectorAdd(cm, subcm);
 			cm = vectorAdd(cm, vectorMultiply(subresult.cm, subresult.weight));
 			totalWeight = totalWeight + subresult.weight;
-			//i = i + 1;
 		}
 		cm = vectorDivide(cm, totalWeight);
 		var result = {
@@ -210,7 +207,6 @@ function computeMassG(node, mode) {
 		};
 		node.cm = cm;
 		node.cmweight = totalWeight;
-		//return cm;
 		return result;
 	}
 }
@@ -290,7 +286,6 @@ function treeForceEuqationG(pos1, pos2, weight1, weight2, k2) {
 			x: rnd.randomIn(0, 0.01*spring),
 			y: rnd.randomIn(0, 0.01*spring)
 			};
-		//var disp = {"x": Math.random(), "y": Math.random()};
 		return disp;
 	}		
 }
