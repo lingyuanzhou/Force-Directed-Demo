@@ -1,4 +1,4 @@
-/*---------- Multilevel Method ---------*/
+/*----------Yifan Hu Multilevel Method---------*/
 function fdMulti(graph) {
 	var length = graph.nodes.length;
 	var spring = parseFloat($('#spring').val());
@@ -229,6 +229,7 @@ function mivs(G) {
 }
 /*-----------Adaptive FD------------------*/
 function forceDirectedAlgorithm(G, XVectors, Weight, tol) {
+	//var converged = false;
 	var converged = 0;
 	var length = G.row;
 	var count = 0;
@@ -242,7 +243,6 @@ function forceDirectedAlgorithm(G, XVectors, Weight, tol) {
 	if(G.level != 0) {
 		var tolG = k*tol;
 		var t = k;
-		//var ratio = 10;
 	}else {
 		var tolG = tol*k;
 		var t = k;
@@ -271,7 +271,6 @@ function forceDirectedAlgorithm(G, XVectors, Weight, tol) {
 
 		t = 0.9*t;
 		count++;
-				
 	}
 }
 

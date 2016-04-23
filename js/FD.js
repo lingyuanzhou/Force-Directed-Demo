@@ -1,10 +1,9 @@
-/*----------- FD Basic -----------*/
+/*-----------FD Basic-----------*/
 function fdBasic(graph) {
 	var canvas = $("#canvas")[0];
 	var k = parseFloat($('#spring').val());
 	var k2 = Math.pow(k, 2);
 
-	var times = parseFloat($('#iterations').val());
 	var tstart = 0.5 * canvas.width;
 	var t = tstart;
 
@@ -37,8 +36,8 @@ function fdBasic(graph) {
 			energy = energy + Math.pow(graph.nodes[i].disp.x, 2) + Math.pow(graph.nodes[i].disp.y, 2);
 		}
 
-		t = updateStep(t, energy, oldEnergy, mode);
-		//t = t * 0.9;
+		//t = updateStep(t, energy, oldEnergy, mode);
+		t = t * 0.9;
 
 		var difference = 0;
 		for(var i=0; i<graph.nodes.length; i++) {
@@ -66,14 +65,13 @@ function updateStep(t, energy, oldEnergy, mode) {
 	return t;
 }
 
-/*----------- FD Grid -----------*/
+/*-----------FD Grid-----------*/
 function fdGrid(graph) {
 	var canvas = $("#canvas")[0];
 	var k = parseFloat($('#spring').val());
 	var k2 = Math.pow(k, 2);
 	var range = parseFloat($('#gridRange').val());
 
-	var times = parseFloat($('#iterations').val());
 	var tstart = 0.5 * canvas.width;
 	var t = tstart;
 	
@@ -122,7 +120,7 @@ function fdGrid(graph) {
 	}
 }
 
-/*----------- FD Barnes -----------*/
+/*-----------FD Barnes-----------*/
 function fdBarnes(graph) {
 	var canvas = $("#canvas")[0];
 	var k = parseFloat($('#spring').val());
@@ -130,7 +128,6 @@ function fdBarnes(graph) {
 	var theta = parseFloat($('#theta').val());
 	var level = parseFloat($('#level').val());
 
-	var times = parseFloat($('#iterations').val());
 	var tstart = 0.5 * canvas.width;
 	var t = tstart;
 
@@ -184,7 +181,7 @@ function fdBarnes(graph) {
 }
 
 
-/*----------- Force Compute -----------*/
+/*-----------Force Compute-----------*/
 function repulsionBasic(graph, k2) {
 	graph.nodes.forEach(function(node) {
 		node.disp.x = 0;
@@ -283,7 +280,7 @@ function movement(graph, t, mode) {
 }
 
 
-/*----------- Force Equations -----------*/
+/*-----------Force Equations-----------*/
 function layoutRepulsionEquation(x, k2) {
 	var fr;
 	fr = k2 / x;

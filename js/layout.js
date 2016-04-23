@@ -76,24 +76,30 @@ function chooseVersion() {
 	switch(version) {
 		case "grid":
 			// Add more options for grid version
-			var newOption = '<tr id="gridRangeOpt">'+
-								'<td>' + '<p class="font_0" style="font-size: 14px;">Grid Range</p>' + '</td>' +
-								'<td>' + '<input type="number" id="gridRange" step="5" value="100" style="float:right;width:50px;"/>' + '</td>' +
-							'</tr>';
-			$('#moreOptions tr:last').after(newOption);
+			var newOption = '<div class="form-group" id="gridRangeOpt">' +
+					'<label for="gridRange" class="control-label col-sm-4">Grid Range</label>' +
+					'<div class="col-sm-8">' +
+					'<input type="number" class="form-control" id="gridRange" step="5" value="100"/>' +
+					'</div>' +
+					'</div>';
+			$('#moreOptions').append(newOption);
 
 			break;
 		case "barnes":
-			var theta = '<tr id="thetaOpt">'+
-							'<td>' + '<p class="font_0" style="font-size: 14px;">Theta</p>' + '</td>' +
-							'<td>' + '<input type="number" id="theta" step="0.1" value="1.5" style="float:right;width:50px;"/>' + '</td>' +
-						'</tr>';
-			$('#moreOptions tr:last').after(theta);
-			var level = '<tr id="levelOpt">'+
-							'<td>' + '<p class="font_0" style="font-size: 14px;">Level</p>' + '</td>' +
-							'<td>' + '<input type="number" id="level" step="1" value="6" style="float:right;width:50px;"/>' + '</td>' +
-						'</tr>';
-			$('#moreOptions tr:last').after(level);
+			var theta = '<div class="form-group" id="thetaOpt">' +
+				'<label for="theta" class="control-label col-sm-4">Theta</label>' +
+				'<div class="col-sm-8">' +
+				'<input type="number" class="form-control" id="theta" step="0.1" value="1.5"/>' +
+				'</div>' +
+				'</div>';
+			$('#moreOptions').append(theta);
+			var level = '<div class="form-group" id="levelOpt">' +
+				'<label for="level" class="control-label col-sm-4">Level</label>' +
+				'<div class="col-sm-8">' +
+				'<input type="number" class="form-control" id="level" step="1" value="6"/>' +
+				'</div>' +
+				'</div>';
+			$('#moreOptions').append(level);
 			break;
 	}
 }
@@ -103,7 +109,6 @@ function apply() {
 	if(data) {
 		// Create graph
 		createGraph(data, graph);
-		var list = [];
 		switch(version) {
 			case "basic":
 				var start = new Date().getTime();
@@ -144,33 +149,31 @@ function apply() {
 				break;
 		}
 	}else {
-		alert("Load Data First !");
+		alert("Load Data First");
 	}
 }
 
 function customization() {
 	if(this.checked) {
 		if(this.id == "nodeC") {
-			$('#nodeCValue').attr('disabled', false);
+			$('#nodeCValue').attr('disabled', 'false');
 			graph.nodeC = true;
 			$('#ns').text("Node Maxium");
 		}else {
-			$('#edgeCValue').attr('disabled', false);
+			$('#edgeCValue').attr('disabled', 'false');
 			graph.edgeC = true;
 			$('#et').text("Edge Maxium");
 		}
 	}else {
 		if(this.id == "nodeC") {
-			$('#nodeCValue').attr('disabled', true);
+			$('#nodeCValue').attr('disabled', 'true');
 			delete graph.maxNodeC;
 			graph.nodeC = false;
 			$('#ns').text("Node Size");
 		}else {
-			$('#edgeCValue').attr('disabled', true);
+			$('#edgeCValue').attr('disabled', 'true');
 			graph.edgeC = false;
-			$('#et').text("Edge Size");
+			$('#et').text("Edge Thickness");
 		}
 	}
 }
-
-

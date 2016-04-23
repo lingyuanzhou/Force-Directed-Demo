@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--build:css css/styles.min.css-->
     <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/forcedirected.css">
+    <!--endbuild-->
 
     <title>Force Directed Demo</title>
 </head>
 <body>
-<!-- Header -->
+    <!-- Header -->
     <div class="navbar navbar-default navbar-static-top">
         <div class="container">
             <div class="navbar-header">
@@ -38,127 +40,132 @@
     </div>
 
 	<div class="container" id="main-container">
-        <div class="col-md-9" id="leftpanel">
-            <div class="row well well-lg" id="output">
-                <div id="viewer">
-                    <canvas id="canvas" class="img-responsive" width="900" height="600"/>
-                </div>
-                <div class="input-group" id="opacity">
-                    <span class="input-group-addon" id="opacity-addon">Background Opacity</span>
-                    <input type="range" class="form-control" id="bg-opacity" aria-describedby="opacity-addon">
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-3" id="rightpanel">
-
-            <!-- Method -->
-            <div class="row" id="algorithm">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Method</div>
-                    <div class="panel-body">
-                        <select class="form-control" id="version">
-                            <option value="basic">Basic Version</option>
-                            <option value="grid">Grid-Variant Version</option>
-                            <option value="barnes">Barnes-Hut Versions</option>
-                            <option value="multilevel">Multilevel Versions</option>
-                        </select>
+        <div class="row text-center">
+            <div class="col-md-9" id="leftpanel">
+                <div class="row well well-lg" id="output">
+                    <div id="viewer">
+                        <canvas id="canvas" class="img-responsive" width="900" height="600"/>
+                    </div>
+                    <div class="input-group" id="opacity">
+                        <span class="input-group-addon" id="opacity-addon">Background Opacity</span>
+                        <input type="range" class="form-control" id="bg-opacity" aria-describedby="opacity-addon">
                     </div>
                 </div>
             </div>
 
-            <!-- Option -->
-            <div class="row" id="options">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Options</div>
-                    <div class="panel-body">
-                        <form class="form-horizontal">
-                            <div class="form-group">
-                                <label for="source" class="control-label col-sm-4">Source</label>
-                                <div class="col-sm-8">
-                                    <select class="form-control" id="source">
-                                        <option value="select">select</option>
-                                    </select>
-                                </div>
-                            </div>
+            <div class="col-md-3" id="rightpanel">
 
-                            <div class="form-group">
-                                <label for="target" class="control-label col-sm-4">Target</label>
-                                <div class="col-sm-8">
-                                    <select class="form-control" id="target">
-                                        <option value="select">select</option>
-                                    </select>
-                                </div>
-                            </div>
+                <!-- Method -->
+                <div class="col-sm-4 col-md-12" id="algorithm">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Method</div>
+                        <div class="panel-body">
+                            <select class="form-control" id="version">
+                                <option value="basic">Basic Version</option>
+                                <option value="grid">Grid-Variant Version</option>
+                                <option value="barnes">Barnes-Hut Versions</option>
+                                <option value="multilevel">Multilevel Versions</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
 
-                            <div class="form-group">
-                                <label for="spring" class="control-label col-sm-4">Spring</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="spring" value="30" max="200" step="5"/>
+                <!-- Option -->
+                <div class="col-sm-8 col-md-12" id="options">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Options</div>
+                        <div class="panel-body">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="source" class="control-label col-sm-4">Source</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="source">
+                                            <option value="select">select</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="nodeSize" class="control-label col-sm-4" id="ns">Node Size</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="nodeSize" step="1" value="5"/>
+                                <div class="form-group">
+                                    <label for="target" class="control-label col-sm-4">Target</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="target">
+                                            <option value="select">select</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="edgeThickness" class="control-label col-sm-4" id="et">Edge Size</label>
-                                <div class="col-sm-8">
-                                    <input type="number" class="form-control" id="edgeThickness" step="1" value="1"/>
+                                <div class="form-group">
+                                    <label for="spring" class="control-label col-sm-4">Spring</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="spring" value="30" max="200" step="5"/>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <hr>
-                            <label class="control-label">Customization</label>
+                                <div class="form-group">
+                                    <label for="nodeSize" class="control-label col-sm-4" id="ns">Node Size</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="nodeSize" step="1" value="5"/>
+                                    </div>
+                                </div>
 
-                            <div class="form-group">
-                                <div class="checkbox col-sm-4">
-                                    <label>
-                                        <input type="checkbox" class="checkbox pull-right" id="nodeC" value="nodeC">
-                                        <span>Node</span>
-                                    </label>
+                                <div class="form-group">
+                                    <label for="edgeThickness" class="control-label col-sm-4" id="et">Edge Size</label>
+                                    <div class="col-sm-8">
+                                        <input type="number" class="form-control" id="edgeThickness" step="1" value="1"/>
+                                    </div>
                                 </div>
-                                <div class="col-sm-8">
-                                    <select class="form-control" id="nodeCValue" disabled></select>
-                                </div>
-                            </div>
 
-                            <div class="form-group">
-                                <div class="checkbox col-sm-4">
-                                    <label>
-                                        <input type="checkbox" class="checkbox pull-right" id="edgeC" value="edgeC">
-                                        <span>Edge</span>
-                                    </label>
-                                </div>
-                                <div class="col-sm-8">
-                                    <select class="form-control" id="edgeCValue" disabled></select>
-                                </div>
-                            </div>
+                                <div id="moreOptions">
 
-                            <div class="form-group text-center">
-                                <input type="file" id="openFile" style="display: none;" />
-                                <button type="button" id="loadDataBtn" class="btn btn-default">Load Data</button>
-                                <button type="button" id="apply" class="btn btn-default">Apply</button>
-                            </div>
-                        </form>
+                                </div>
+
+                                <hr>
+                                <label class="control-label">Customization</label>
+
+                                <div class="form-group">
+                                    <div class="checkbox col-sm-4">
+                                        <label>
+                                            <input type="checkbox" class="checkbox pull-right" id="nodeC" value="nodeC">
+                                            <span>Node</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="nodeCValue" disabled></select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="checkbox col-sm-4">
+                                        <label>
+                                            <input type="checkbox" class="checkbox pull-right" id="edgeC" value="edgeC">
+                                            <span>Edge</span>
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="edgeCValue" disabled></select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group text-center">
+                                    <input type="file" id="openFile" style="display: none;" />
+                                    <button type="button" id="loadDataBtn" class="btn btn-default">Load Data</button>
+                                    <button type="button" id="apply" class="btn btn-default">Apply</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Time -->
+                <div class="col-sm-4 col-md-12" id="time">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">Time</div>
+                        <div class="panel-body">
+                            <p class="font_6" id="fdTime">0s</p>
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Time -->
-            <div class="row" id="time">
-                <div class="panel panel-info">
-                    <div class="panel-heading">Time</div>
-                    <div class="panel-body">
-                        <p class="font_6" id="fdTime">0s</p>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
@@ -186,7 +193,8 @@
         </div>
     </div>
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <!--build:js js/main.min.js-->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/jquery-csv/src/jquery.csv.js"></script>
     <script src="bower_components/jsrand/jsrand.js"></script>
@@ -197,5 +205,6 @@
     <script src="js/bnTree.js"></script>
     <script src="js/graph.js"></script>
     <script src="js/layout.js"></script>
+    <!--endbuild-->
 </body>
 </html>
